@@ -18,6 +18,7 @@ Visual Studio 2017 Community Edition was tested. Might work in other IDEs as wel
 ## Todo
 - Automate entering the AID
 - Mac/Linux Compatibilty
+- full Automation without needing qcma
 - Fix bugs (you tell me!)
 
 ## Thanks
