@@ -20,55 +20,28 @@ namespace h_encore_auto
         {
             InitializeComponent();
 
-            if (Directory.Exists(temp))
+            if (Directory.Exists(Ref.tempDir))
             {
-                DeleteDirectory(temp);
+                Util.DeleteDirectory(Ref.tempDir);
             }
 
             createTemp();
         }
 
-        string ProgramFilesx86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
-        string ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-        bool tempCreated = false;
-        string temp = Path.GetTempPath() + @"encore_temp\";
-
-        private void dlFile(string url, string filename)
-        {
-            using (WebClient client = new WebClient())
-            {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                client.DownloadFile(url, temp + filename);
-            }
-        }
-        private void createTemp()
+        public void createTemp()
         {
             if (tempCreated == false)
             {
-                Directory.CreateDirectory(temp);
+                Directory.CreateDirectory(Ref.tempDir);
                 tempCreated = true;
             }
         }
 
-        public static void DeleteDirectory(string path)
-        {
-            foreach (string directory in Directory.GetDirectories(path))
-            {
-                DeleteDirectory(directory);
-            }
-            try
-            {
-                Directory.Delete(path, true);
-            }
-            catch (IOException)
-            {
-                Directory.Delete(path, true);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Directory.Delete(path, true);
-            }
-        }
+        string ProgramFilesx86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+        string ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        bool tempCreated = false;
+        string longAID = null;
+        string shortAID = null;
 
         private void buttonGo_Click(object sender, RoutedEventArgs e)
         {
@@ -100,7 +73,7 @@ namespace h_encore_auto
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 startInfo.FileName = "cmd.exe";
-                startInfo.WorkingDirectory = temp;
+                startInfo.WorkingDirectory = Ref.tempDir;
 
                 startInfo.Arguments = "/C " + boxPath7z.Text + " x " + boxPathPsvimg.Text;
                 process.StartInfo = startInfo;
@@ -117,17 +90,17 @@ namespace h_encore_auto
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = "/C " + temp + "pkg2zip.exe" + " -x " + boxPathEntry.Text;
+                startInfo.Arguments = "/C " + Ref.tempDir + "pkg2zip.exe" + " -x " + boxPathEntry.Text;
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = "/C xcopy /E /Y /I " + temp + @"app\PCSG90096\ " + temp + @"h-encore\app\ux0_temp_game_PCSG90096_app_PCSG90096\";
+                startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"app\PCSG90096\ " + Ref.tempDir + @"h-encore\app\ux0_temp_game_PCSG90096_app_PCSG90096\";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = "/C xcopy /E /Y /I " + temp + @"app\PCSG90096\sce_sys\package\temp.bin " + temp + @"h-encore\license\ux0_temp_game_PCSG90096_license_app_PCSG90096\6488b73b912a753a492e2714e9b38bc7.rif*";
+                startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"app\PCSG90096\sce_sys\package\temp.bin " + Ref.tempDir + @"h-encore\license\ux0_temp_game_PCSG90096_license_app_PCSG90096\6488b73b912a753a492e2714e9b38bc7.rif*";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
@@ -156,54 +129,41 @@ namespace h_encore_auto
                     MessageBox.Show("Launch Content Manager on your PS Vita and connect it to your computer, where you then need to select PC -> PS Vita System.\nAfter that you select Applications. If you see an error message about System Software, you should simply reboot your device to solve it\n(if this doesn't solve, then put your device into airplane mode and reboot).");
                     if (Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PS Vita\"))
                     {
-                        MessageBox.Show("A folder will open, which should now contain another folder named with 16 characters of jumbled letters and numbers.\nCopy this folder name and insert it on the website, which is going to open as well.\nThe website will give you an even longer text mass, which you must enter in the next step.");
+                        MessageBox.Show("A folder will open, which should now contain another folder named with 16 characters of jumbled letters and numbers.\nCopy this folder name and insert it in the next step.");
                         Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PS Vita\APP\");
-                        Process.Start("http://cma.henkaku.xyz/");
+                        shortAID = InputBox.ShowInputBox("Enter the 16-character folder name.");
                     }
                     else
                     {
-                        MessageBox.Show("A folder named after your Account ID was created inside your \"PS Vita\\APP\\\"\nUse the settings of QCMA to find it.\nCopy the folder name and insert it on the website, which is going to open.\nThe website will give you an even longer text mass, which you must enter in the next step.");
-                        Process.Start("http://cma.henkaku.xyz/");
+                        MessageBox.Show("A folder named after your Account ID was created inside your \"PS Vita\\APP\\\"\nUse the settings of QCMA to find it.\nCopy the folder name and insert it in the next step.");
+                        shortAID = InputBox.ShowInputBox("Enter the 16-character folder name.");
                     }
-                    if (MessageBox.Show("Do you want to read the steps again?", "Re-read?", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                    if (MessageBox.Show("Press yes to continue, no to redo the last step.", "Continue?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                     {
                         break;
                     }
                 }
-                string key = null;
-                for (; ; )
-                {
-                    key = InputBox.ShowInputBox("Enter key with 64 characters from the website.");
-                    if (key != null)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        if (MessageBox.Show("Do you want to cancel?", "Cancel?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                        {
-                            cleanup();
-                        }
-                    }
-                }
-                startInfo.WorkingDirectory = temp + "h-encore";
 
-                startInfo.Arguments = @"/C ..\psvimg-create -n app -K " + key + " PCSG90096/app";
+                longAID = Util.GetEncKey(shortAID);
+
+                startInfo.WorkingDirectory = Ref.tempDir + "h-encore";
+
+                startInfo.Arguments = @"/C ..\psvimg-create -n app -K " + longAID + " PCSG90096/app";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = @"/C ..\psvimg-create -n appmeta -K " + key + " PCSG90096/appmeta";
+                startInfo.Arguments = @"/C ..\psvimg-create -n appmeta -K " + longAID + " PCSG90096/appmeta";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = @"/C ..\psvimg-create -n license -K " + key + " PCSG90096/license";
+                startInfo.Arguments = @"/C ..\psvimg-create -n license -K " + longAID + " PCSG90096/license";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = @"/C ..\psvimg-create -n savedata -K " + key + " PCSG90096/savedata";
+                startInfo.Arguments = @"/C ..\psvimg-create -n savedata -K " + longAID + " PCSG90096/savedata";
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
@@ -212,12 +172,12 @@ namespace h_encore_auto
                 {
                     MessageBox.Show("Two folders will now open.\nCopy the contained folder called \"PCSG90096\" to the \"PS Vita/APP/xxxxxxxxxxxxxxxx/\" folder.\nThen refresh the databse of QCMA by right-clicking the icon and selecting it.");
                     Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\PS Vita\APP\");
-                    Process.Start(temp + @"h-encore\");
+                    Process.Start(Ref.tempDir + @"h-encore\");
                 }
                 else
                 {
                     MessageBox.Show("A folder will now open.\nCopy the contained folder called \"PCSG90096\" to your \"PS Vita/APP/xxxxxxxxxxxxxxxx/\" folder.\nThen refresh the databse of QCMA by right-clicking the icon and selecting it.");
-                    Process.Start(temp + @"h-encore\");
+                    Process.Start(Ref.tempDir + @"h-encore\");
                 }
                 MessageBox.Show("Ready? Have you copied the folder and refreshed the database?");
                 MessageBox.Show("Now copy h-encore to your Vita using the content manager.");
@@ -227,57 +187,57 @@ namespace h_encore_auto
                     Process.Start("https://codestation.github.io/qcma/");
                 }
 
-                cleanup();
+                Util.cleanup();
             }
         }
 
         private void buttonZipDL_Click(object sender, RoutedEventArgs e)
         {
-            dlFile("https://www.7-zip.org/a/7zr.exe", "7zr.exe");
-            dlFile("https://www.7-zip.org/a/7z1805-extra.7z", "7z-extra.7z");
+            Util.dlFile(Ref.url7zr, "7zr.exe");
+            Util.dlFile(Ref.url7za, "7z-extra.7z");
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.WorkingDirectory = temp;
+            startInfo.WorkingDirectory = Ref.tempDir;
 
             startInfo.Arguments = "/C 7zr.exe x 7z-extra.7z";
             process.StartInfo = startInfo;
             process.Start();
             process.WaitForExit();
 
-            boxPath7z.Text = temp + "7za.exe";
+            boxPath7z.Text = Ref.tempDir + "7za.exe";
         }
 
         private void buttonPsvimgDL_Click(object sender, RoutedEventArgs e)
         {
-            dlFile("https://github.com/yifanlu/psvimgtools/releases/download/v0.1/psvimgtools-0.1-win32.zip", "psvimgtools-0.1-win32.zip");
+            Util.dlFile(Ref.urlPsvimg, "psvimgtools.zip");
 
-            boxPathPsvimg.Text = temp + "psvimgtools-0.1-win32.zip";
+            boxPathPsvimg.Text = Ref.tempDir + "psvimgtools.zip";
         }
 
         private void buttonPkgDL_Click(object sender, RoutedEventArgs e)
         {
-            dlFile("https://github.com/mmozeiko/pkg2zip/releases/download/v1.8/pkg2zip_32bit.zip", "pkg2zip_32bit.zip");
+            Util.dlFile(Ref.urlPkg, "pkg2zip.zip");
 
-            boxPathPkg.Text = temp + "pkg2zip_32bit.zip";
+            boxPathPkg.Text = Ref.tempDir + "pkg2zip.zip";
         }
 
         private void buttonEncDL_Click(object sender, RoutedEventArgs e)
         {
-            dlFile("https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip", "h-encore.zip");
+            Util.dlFile(Ref.urlEnc, "h-encore.zip");
 
-            boxPathEnc.Text = temp + "h-encore.zip";
+            boxPathEnc.Text = Ref.tempDir + "h-encore.zip";
         }
 
         private void buttonEntryDL_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("This will take a while, please be patient.");
 
-            dlFile("http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg", "xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg");
+            Util.dlFile(Ref.urlEntry, "entryPoint.pkg");
 
-            boxPathEntry.Text = temp + "xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
+            boxPathEntry.Text = Ref.tempDir + "entryPoint.pkg";
         }
 
         private void button7zFile_Click(object sender, RoutedEventArgs e)
@@ -352,12 +312,6 @@ namespace h_encore_auto
                 string path = dlg.FileName;
                 boxPathEntry.Text = path;
             }
-        }
-        private void cleanup()
-        {
-            DeleteDirectory(temp);
-            MessageBox.Show("Done.");
-            System.Environment.Exit(0);
         }
     }
 }
