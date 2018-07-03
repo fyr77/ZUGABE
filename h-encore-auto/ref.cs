@@ -13,5 +13,19 @@ namespace h_encore_auto
         public static readonly string url7za = "https://www.7-zip.org/a/7z1805-extra.7z";
 
         public static readonly string tempDir = Path.GetTempPath() + @"encore_temp\";
+
+        public static readonly string[] trims = new string[] {
+            "movie\\",
+            "image\\bg\\",
+            "image\\ev\\",
+            "image\\icon\\",
+            "image\\stitle\\",
+            "image\\tachie\\",
+            "sound\\bgm\\",
+            "sound\\se\\",
+            "sound\\sec\\",
+            "sound\\voice\\",
+            "text\\01\\"
+        };
     }
 }

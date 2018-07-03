@@ -105,6 +105,20 @@ namespace h_encore_auto
                 process.Start();
                 process.WaitForExit();
 
+                try
+                {
+                    string path = Ref.tempDir + "app\\PCSG90096\\resource\\";
+                    foreach (string k in Ref.trims)
+                    {
+                        Util.DeleteDirectory(path + k);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unexpected Exception: " + ex.Message);
+                    return;
+                }
+
                 for (; ; )
                 {
                     Process[] pname = Process.GetProcessesByName("qcma");
