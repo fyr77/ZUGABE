@@ -79,8 +79,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutoMode.xaml.cs">
+      <DependentUpon>AutoMode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ref.cs" />
     <Compile Include="Util.cs" />
+    <Page Include="AutoMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

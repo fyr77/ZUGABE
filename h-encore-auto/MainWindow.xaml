@@ -5,28 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:h_encore_auto"
         mc:Ignorable="d"
-        Title="h-encore-auto" Width="789.733" Height="391.819">
+        Title="ZUGABE" Width="789.733" Height="403.621" ResizeMode="CanMinimize" Closed="Window_Closed">
     <Grid>
-        <TextBox x:Name="boxPath7z" HorizontalAlignment="Left" Height="20" Margin="10,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="559"/>
-        <Button x:Name="button7zFile" Content="Local File" HorizontalAlignment="Left" Margin="687,50,0,0" VerticalAlignment="Top" Width="75" Click="button7zFile_Click"/>
+        <TextBox x:Name="boxPath7z" Margin="10,50,213,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="button7zFile" Content="Local File" Margin="687,50,20,0" Click="button7zFile_Click" Height="20" VerticalAlignment="Top"/>
         <Label Content="7za.exe:" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top"/>
         <Label Content="psvimgtools.zip:" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Height="26"/>
-        <TextBox x:Name="boxPathPsvimg" HorizontalAlignment="Left" Height="20" Margin="10,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="559"/>
-        <Button x:Name="buttonPsvimgDL" Content="Download" HorizontalAlignment="Left" Margin="593,106,0,0" VerticalAlignment="Top" Width="75" Click="buttonPsvimgDL_Click"/>
-        <Button x:Name="buttonPsvimgFile" Content="Local File" HorizontalAlignment="Left" Margin="687,106,0,0" VerticalAlignment="Top" Width="75" Click="buttonPsvimgFile_Click"/>
+        <TextBox x:Name="boxPathPsvimg" Margin="10,106,213,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonPsvimgDL" Content="Download" Margin="593,106,114,0" Click="buttonPsvimgDL_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonPsvimgFile" Content="Local File" Margin="687,106,20,0" Click="buttonPsvimgFile_Click" Height="20" VerticalAlignment="Top"/>
         <Label Content="pkg2zip.zip:" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="boxPathPkg" HorizontalAlignment="Left" Height="20" Margin="10,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="559"/>
-        <Button x:Name="buttonPkgDL" Content="Download" HorizontalAlignment="Left" Margin="593,162,0,0" VerticalAlignment="Top" Width="75" Click="buttonPkgDL_Click"/>
-        <Button x:Name="buttonPkgFile" Content="Local File" HorizontalAlignment="Left" Margin="687,162,0,0" VerticalAlignment="Top" Width="75" Click="buttonPkgFile_Click"/>
+        <TextBox x:Name="boxPathPkg" Margin="10,162,213,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonPkgDL" Content="Download" Margin="593,162,114,0" Click="buttonPkgDL_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonPkgFile" Content="Local File" Margin="687,162,20,0" Click="buttonPkgFile_Click" Height="20" VerticalAlignment="Top"/>
         <Label Content="h-encore.zip:" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="boxPathEnc" HorizontalAlignment="Left" Height="20" Margin="10,218,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="559"/>
-        <Button x:Name="buttonEncDL" Content="Download" HorizontalAlignment="Left" Margin="593,218,0,0" VerticalAlignment="Top" Width="75" Click="buttonEncDL_Click"/>
-        <Button x:Name="buttonEncFile" Content="Local File" HorizontalAlignment="Left" Margin="687,218,0,0" VerticalAlignment="Top" Width="75" Click="buttonEncFile_Click"/>
+        <TextBox x:Name="boxPathEnc" Margin="10,218,213,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEncDL" Content="Download" Margin="593,218,114,0" Click="buttonEncDL_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEncFile" Content="Local File" Margin="687,218,20,0" Click="buttonEncFile_Click" Height="20" VerticalAlignment="Top"/>
         <Label Content="Bitter Smile pkg:" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="boxPathEntry" HorizontalAlignment="Left" Height="20" Margin="10,269,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="559"/>
-        <Button x:Name="buttonEntryDL" Content="Download" HorizontalAlignment="Left" Margin="593,269,0,0" VerticalAlignment="Top" Width="75" Click="buttonEntryDL_Click"/>
-        <Button x:Name="buttonEntryFile" Content="Local File" HorizontalAlignment="Left" Margin="687,269,0,0" VerticalAlignment="Top" Width="75" Click="buttonEntryFile_Click"/>
-        <Button x:Name="buttonZipDL" Content="Download" HorizontalAlignment="Left" Margin="593,50,0,0" VerticalAlignment="Top" Width="75" Click="buttonZipDL_Click"/>
-        <Button x:Name="buttonGo" Content="Go!" Margin="213,314,213,0" VerticalAlignment="Top" Height="38" Click="buttonGo_Click"/>
+        <TextBox x:Name="boxPathEntry" Margin="10,269,213,0" TextWrapping="Wrap" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEntryDL" Content="Download" Margin="593,269,114,0" Click="buttonEntryDL_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEntryFile" Content="Local File" Margin="687,269,20,0" Click="buttonEntryFile_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonZipDL" Content="Download" Margin="593,50,114,0" Click="buttonZipDL_Click" Height="20" VerticalAlignment="Top"/>
+        <Button x:Name="buttonGo" Content="Go!" Margin="406,313,20,0" Click="buttonGo_Click" Height="38" VerticalAlignment="Top"/>
+        <Button x:Name="buttonAuto" Content="Automatic Mode (BETA)" HorizontalAlignment="Left" Margin="13,313,0,0" VerticalAlignment="Top" Width="178" Height="38" FontFamily="Source Code Pro Black" Click="buttonAuto_Click"/>
     </Grid>
 </Window>

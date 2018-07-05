@@ -1,0 +1,13 @@
+﻿<Window x:Class="h_encore_auto.AutoMode"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:h_encore_auto"
+        mc:Ignorable="d"
+        Title="AutoMode" Height="512" Width="512" ResizeMode="CanMinimize" Closed="Window_Closed">
+    <Grid>
+        <Button x:Name="buttonStart" Content="Start!" Margin="120,109,0,0" Width="266" Height="265" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="72" FontFamily="Lato" Click="buttonStart_Click"/>
+
+    </Grid>
+</Window>

@@ -58,7 +58,6 @@ namespace h_encore_auto
         public static void cleanup()
         {
             Util.DeleteDirectory(Ref.tempDir);
-            MessageBox.Show("Done.");
             System.Environment.Exit(0);
         }
     }

@@ -327,5 +327,17 @@ namespace h_encore_auto
                 boxPathEntry.Text = path;
             }
         }
+
+        private void buttonAuto_Click(object sender, RoutedEventArgs e)
+        {
+            var newForm = new AutoMode(); 
+            newForm.Show();
+            this.Visibility = Visibility.Collapsed;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Util.cleanup();
+        }
     }
 }
