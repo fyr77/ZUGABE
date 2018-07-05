@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,11 @@ namespace h_encore_auto
         string pathPkg = Ref.tempDir + "pkg2zip.zip";
         string pathEnc = Ref.tempDir + "h-encore.zip";
         string pathEntry = Ref.tempDir + "entryPoint.pkg";
+        string pathQcma = Ref.tempDir + "qcma.zip";
+        string pathQcmaExtracted = Ref.tempDir + "Qcma\\";
+        string pathBackupReg = Ref.tempDir + "backup.reg";
+        string pathImportReg = Ref.tempDir + "qcma.reg";
+        string pathQcmaRes = Ref.tempDir + "QcmaRes\\";
 
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -50,6 +56,8 @@ namespace h_encore_auto
 
             Process process = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
+            ProcessStartInfo startInfoOut = new ProcessStartInfo();
+
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
             startInfo.WorkingDirectory = Ref.tempDir;
@@ -64,6 +72,98 @@ namespace h_encore_auto
             Util.dlFile(Ref.urlPkg, "pkg2zip.zip");
             Util.dlFile(Ref.urlEnc, "h-encore.zip");
             Util.dlFile(Ref.urlEntry, "entryPoint.pkg");
+            Util.dlFile(Ref.urlQcma, "qcma.zip");
+            Util.dlFile(Ref.urlReg, "qcma.reg");
+
+            string text = File.ReadAllText(pathImportReg);
+            text = text.Replace("REPLACE", pathQcmaRes);
+            File.WriteAllText(pathImportReg, text);
+
+            startInfo.Arguments = "/C " + path7z + " x " + pathPsvimg;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C " + path7z + " x " + pathPkg;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C " + path7z + " x " + pathEnc;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C " + path7z + " x " + pathQcma;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C " + Ref.tempDir + "pkg2zip.exe -x " + pathEntry;
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"app\PCSG90096\ " + Ref.tempDir + @"h-encore\app\ux0_temp_game_PCSG90096_app_PCSG90096\";
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"app\PCSG90096\sce_sys\package\temp.bin " + Ref.tempDir + @"h-encore\license\ux0_temp_game_PCSG90096_license_app_PCSG90096\6488b73b912a753a492e2714e9b38bc7.rif*";
+            process.StartInfo = startInfo;
+            process.Start();
+            process.WaitForExit();
+
+            try
+            {
+                string path = Ref.tempDir + "app\\PCSG90096\\resource\\";
+                foreach (string k in Ref.trims)
+                {
+                    Util.DeleteDirectory(path + k);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Exception: " + ex.Message + "\nYou should tell the developer in a github issue. Include a screenshot if possible!");
+                return;
+            }
+
+            bool qcmaConfigFound = false;
+
+            startInfoOut.RedirectStandardOutput = true;
+            startInfoOut.UseShellExecute = false;
+            startInfoOut.Arguments = @"/C reg query HKEY_CURRENT_USER\Software\codestation\qcma & echo 0";
+            process.StartInfo = startInfoOut;
+            process.Start();
+            string stdout = process.StandardOutput.ReadToEnd();
+            process.WaitForExit();
+
+            if (stdout == "0")
+            {
+                qcmaConfigFound = false;
+
+                startInfo.Arguments = @"/C reg import " + pathImportReg;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            }
+
+            else
+            {
+                qcmaConfigFound = true;
+
+                startInfo.Arguments = @"/C reg export HKEY_CURRENT_USER\Software\codestation\qcma " + pathBackupReg;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+
+                startInfo.Arguments = @" / C reg import " + pathImportReg;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            }
+
+
         }
     }
 }
