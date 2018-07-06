@@ -37,11 +37,14 @@ namespace h_encore_auto
                     Util.DeleteDirectory(Ref.tempDir);
                 Directory.CreateDirectory(Ref.tempDir);
             }
+
+            InitTimer();
         }
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
         {
             buttonStart.IsEnabled = false;
+            buttonClose.IsEnabled = false;
             barWorking.Visibility = Visibility.Visible;
 
             new Thread(() =>
@@ -71,6 +74,10 @@ namespace h_encore_auto
                 startInfo.FileName = "cmd.exe";
                 startInfo.WorkingDirectory = Ref.tempDir;
 
+                startInfoOut.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfoOut.FileName = "cmd.exe";
+                startInfoOut.WorkingDirectory = Ref.tempDir;
+
                 startInfo.Arguments = "/C 7zr.exe x 7z-extra.7z";
                 process.StartInfo = startInfo;
                 process.Start();
@@ -89,6 +96,8 @@ namespace h_encore_auto
                 File.WriteAllText(Ref.pathImportReg, text);
                 text = text.Replace("\\", "/");
                 File.WriteAllText(Ref.pathImportReg, text);
+                text = text.Replace("HKEY_CURRENT_USER/Software/codestation/qcma", @"HKEY_CURRENT_USER\Software\codestation\qcma");
+                File.WriteAllText(Ref.pathImportReg, text);
 
                 startInfo.Arguments = "/C " + Ref.path7z + " x " + Ref.pathPsvimg;
                 process.StartInfo = startInfo;
@@ -104,6 +113,8 @@ namespace h_encore_auto
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
+
+                Util.dlFile(Ref.urlCreateBat, "h-encore\\create.bat");
 
                 startInfo.Arguments = "/C " + Ref.path7z + " x " + Ref.pathQcma;
                 process.StartInfo = startInfo;
@@ -178,58 +189,7 @@ namespace h_encore_auto
                 process.StartInfo = startInfo;
                 process.Start();
 
-                var guide = new VitaGuide();
-                for (; ; )
-                {
-                    guide.ShowDialog();
-
-                    if (Util.IsDirectoryEmpty(Ref.pathQcmaRes + "PSVita\\APP\\"))
-                    {
-                        MessageBox.Show("Required folder not found. \nMake sure you did everything correctly and follow the steps again.");
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                Ref.shortAID = Directory.GetDirectories(Ref.pathQcmaRes + "PSVita\\APP\\")[0];
-
-                Ref.longAID = Util.GetEncKey(Ref.shortAID);
-
-                startInfo.WorkingDirectory = Ref.tempDir + "h-encore";
-
-                startInfo.Arguments = @"/C ..\psvimg-create -n app -K " + Ref.longAID + " PCSG90096/app";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-
-                startInfo.Arguments = @"/C ..\psvimg-create -n appmeta -K " + Ref.longAID + " PCSG90096/appmeta";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-
-                startInfo.Arguments = @"/C ..\psvimg-create -n license -K " + Ref.longAID + " PCSG90096/license";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-
-                startInfo.Arguments = @"/C ..\psvimg-create -n savedata -K " + Ref.longAID + " PCSG90096/savedata";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-
-                startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"h-encore\PCSG90096\ " + Ref.pathQcmaRes + "PSVita\\" + Ref.shortAID + "\\PCSG90096\\";
-                process.StartInfo = startInfo;
-                process.Start();
-                process.WaitForExit();
-
-                Ref.isSecondGuide = true;
-                guide.ShowDialog();
-
-                MessageBox.Show("If not already done, wait until your Vita has copied over the exploit, then press OK.");
-
-                Util.Cleanup();
+                stage = 1;
 
             }).Start();
         }
@@ -241,8 +201,82 @@ namespace h_encore_auto
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
-
             Util.Cleanup();
+        }
+
+        private int stage = 0;
+        private System.Windows.Forms.Timer timer1;
+        public void InitTimer()
+        {
+            timer1 = new System.Windows.Forms.Timer();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 1000; // in miliseconds
+            timer1.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            var guide = new VitaGuide();
+            if (stage == 1)
+            {
+                for (; ; )
+                {
+                    stage = 0;
+                    guide.ShowDialog();
+
+                    if (Util.IsDirectoryEmpty(Ref.pathQcmaRes + "PSVita\\APP\\"))
+                    {
+                        MessageBox.Show("Required folder not found. \nMake sure you did everything correctly and follow the steps again.");
+                    }
+                    else
+                    {
+                        stage = 2;
+                        break;
+                    }
+                }
+            }
+            if (stage == 2)
+            {
+                stage = 0;
+                new Thread(() =>
+                {
+                    Thread.CurrentThread.IsBackground = true;
+
+                    Process process = new Process();
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    ProcessStartInfo startInfoOut = new ProcessStartInfo();
+
+                    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.WorkingDirectory = Ref.tempDir + "h-encore";
+
+                    Ref.shortAID = Directory.GetDirectories(Ref.pathQcmaRes + "PSVita\\APP\\")[0];
+
+                    Ref.longAID = Util.GetEncKey(Ref.shortAID);
+
+                    startInfo.Arguments = @"/C create.bat " + Ref.longAID;
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+
+                    startInfo.Arguments = "/C xcopy /E /Y /I " + Ref.tempDir + @"h-encore\PCSG90096\ " + Ref.pathQcmaRes + "PSVita\\" + Ref.shortAID + "\\PCSG90096\\";
+                    process.StartInfo = startInfo;
+                    process.Start();
+                    process.WaitForExit();
+
+                    stage = 3;
+                }).Start();
+            }
+            if (stage == 3)
+            {
+                stage = 0;
+                Ref.isSecondGuide = true;
+                guide.ShowDialog();
+
+                MessageBox.Show("If not already done, wait until your Vita has copied over the exploit, then press OK.");
+
+                Util.Cleanup();
+            }
         }
     }
 }

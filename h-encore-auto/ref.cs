@@ -14,6 +14,7 @@ namespace h_encore_auto
         public static readonly string url7za = "https://www.7-zip.org/a/7z1805-extra.7z";
         public static readonly string urlQcma = "https://raw.githubusercontent.com/fyr77/ZUGABE/master/download-resources/Qcma.zip";
         public static readonly string urlReg = "https://raw.githubusercontent.com/fyr77/ZUGABE/master/download-resources/qcma.reg";
+        public static readonly string urlCreateBat = "https://raw.githubusercontent.com/fyr77/ZUGABE/master/download-resources/create.bat";
 
         public static readonly string pathCurrPic = "img/1.png";
 

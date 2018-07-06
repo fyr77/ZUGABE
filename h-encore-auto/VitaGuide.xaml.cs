@@ -29,11 +29,11 @@ namespace h_encore_auto
 
             if (Ref.isSecondGuide == true)
             {
-                currImg = 101;
+                currImg = 15;
             }
 
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
-            textField.Text = currText[currImg];
+            textField.Text = currText[currImg - 1];
             buttonDone.Visibility = Visibility.Hidden;
         }
 
@@ -41,7 +41,7 @@ namespace h_encore_auto
         {
             currImg++;
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
-            textField.Text = currText[currImg];
+            textField.Text = currText[currImg - 1];
             buttonBck.IsEnabled = true;
 
             if (currImg == 14 || currImg == 25)
