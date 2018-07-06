@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.IO;
 using System.Windows.Markup;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace h_encore_auto
 {
@@ -59,6 +60,14 @@ namespace h_encore_auto
         {
             Util.DeleteDirectory(Ref.tempDir);
             System.Environment.Exit(0);
+        }
+        public static bool IsDirectoryEmpty(string path)
+        {
+            IEnumerable<string> items = Directory.EnumerateFileSystemEntries(path);
+            using (IEnumerator<string> en = items.GetEnumerator())
+            {
+                return !en.MoveNext();
+            }
         }
     }
 }

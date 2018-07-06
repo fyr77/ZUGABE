@@ -11,8 +11,10 @@ namespace h_encore_auto
         public static readonly string urlEntry = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
         public static readonly string url7zr = "https://www.7-zip.org/a/7zr.exe";
         public static readonly string url7za = "https://www.7-zip.org/a/7z1805-extra.7z";
-        public static readonly string urlQcma = "https://github.com/fyr77/ZUGABE/blob/master/download-resources/Qcma.zip?raw=true";
-        public static readonly string urlReg = "";
+        public static readonly string urlQcma = "https://raw.githubusercontent.com/fyr77/ZUGABE/master/download-resources/Qcma.zip";
+        public static readonly string urlReg = "https://raw.githubusercontent.com/fyr77/ZUGABE/master/download-resources/qcma.reg";
+
+        public static readonly string pathCurrPic = "img/1.png";
 
         public static readonly string tempDir = Path.GetTempPath() + @"encore_temp\";
 

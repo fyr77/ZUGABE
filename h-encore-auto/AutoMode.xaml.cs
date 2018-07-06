@@ -50,6 +50,16 @@ namespace h_encore_auto
 
         private void buttonStart_Click(object sender, RoutedEventArgs e)
         {
+            Process[] pname = Process.GetProcessesByName("qcma");
+            if (pname.Length != 0)
+            {
+                foreach (var proc in pname)
+                {
+                    proc.Kill();
+                }
+                MessageBox.Show("QCMA was closed, since this application has to interact with it.");
+            }
+
             // 7ZIP Download and extraction
             Util.dlFile(Ref.url7zr, "7zr.exe");
             Util.dlFile(Ref.url7za, "7z-extra.7z");
@@ -157,11 +167,32 @@ namespace h_encore_auto
                 process.Start();
                 process.WaitForExit();
 
-                startInfo.Arguments = @" / C reg import " + pathImportReg;
+                startInfo.Arguments = @" /C reg import " + pathImportReg;
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
             }
+
+            startInfo.Arguments = @"/C " + pathQcmaExtracted + "qcma.exe";
+            process.StartInfo = startInfo;
+            process.Start();
+
+            for (; ; )
+            {
+                var guide = new VitaGuide();
+                guide.ShowDialog();
+
+                if (Util.IsDirectoryEmpty(pathQcmaRes + "PSVita\\APP\\"))
+                {
+                    MessageBox.Show("Required folder not found. \nMake sure you did everything correctly and follow the steps again.");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            shortAID = Directory.GetDirectories(pathQcmaRes + "PSVita\\APP\\")[0];
 
 
         }
