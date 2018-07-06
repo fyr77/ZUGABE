@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:h_encore_auto"
         mc:Ignorable="d"
-        Title="ZUGABE" Height="175.807" Width="512" ResizeMode="CanMinimize" WindowStyle="None">
+        Title="ZUGABE" Height="175.807" Width="512" ResizeMode="NoResize" WindowStyle="None">
     <Grid MouseDown="Grid_MouseDown">
         <Rectangle Fill="#FFF3F3F3" Stroke="Black"/>
 

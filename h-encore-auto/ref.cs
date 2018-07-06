@@ -34,6 +34,17 @@ namespace h_encore_auto
             "text\\01\\"
         };
 
+        public static readonly string[] downloads = new string[] {
+            "7zr.exe",
+            "7z-extra.7z",
+            "entryPoint.pkg",
+            "h-encore.zip",
+            "pkg2zip.zip",
+            "psvimgtools.zip",
+            "qcma.reg",
+            "qcma.zip"
+        };
+
         public static bool isSecondGuide = false;
 
         public static bool isQcmaConfigFound = false;

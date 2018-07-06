@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace h_encore_auto
 {
@@ -19,7 +9,7 @@ namespace h_encore_auto
     /// </summary>
     public partial class VitaGuide : Window
     {
-        int currImg = 1;
+        int currImg;
 
         string[] currText = lang.GuideText(Util.GetLang());
 
@@ -28,9 +18,9 @@ namespace h_encore_auto
             InitializeComponent();
 
             if (Ref.isSecondGuide == true)
-            {
                 currImg = 15;
-            }
+            else
+                currImg = 1;
 
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
             textField.Text = currText[currImg - 1];
@@ -44,7 +34,7 @@ namespace h_encore_auto
             textField.Text = currText[currImg - 1];
             buttonBck.IsEnabled = true;
 
-            if (currImg == 14 || currImg == 25)
+            if (currImg == 14 || currImg == 26)
             {
                 buttonFwd.IsEnabled = false;
                 buttonDone.Visibility = Visibility.Visible;

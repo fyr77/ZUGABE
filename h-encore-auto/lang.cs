@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace h_encore_auto
+﻿namespace h_encore_auto
 {
     class lang
     {
@@ -36,11 +30,12 @@ namespace h_encore_auto
             "3. Wait for it to connect.",
             "4. Select \"PC -> PS Vita System\"",
             "5. Select \"Applications\"",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
+            "6. Select \"PS Vita\"",
+            "7. Tick \"h-encore\" and click \"copy\". Wait for it to complete and close Content Manager.",
+            "8. Start the new \"h-encore\" bubble.",
+            "9. Select \"Install HENkaku\"",
+            "10. Select \"Download VitaShell\"",
+            "11. Finally, exit.",
             "Done. Keep in mind that you have to launch h-encore every time you reboot the Vita. \nWhen launched, just press Exit again. This reapplies the exploit."
         };
     }
