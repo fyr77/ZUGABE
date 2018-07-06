@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace h_encore_auto
 {
@@ -31,5 +32,27 @@ namespace h_encore_auto
             "sound\\voice\\",
             "text\\01\\"
         };
+
+        public static bool isSecondGuide = false;
+
+        public static bool isQcmaConfigFound = false;
+
+        public static readonly string ProgramFilesx86 = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86);
+        public static readonly string ProgramFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+        public static string longAID = null;
+        public static string shortAID = null;
+        public static readonly string path7z = tempDir + "7za.exe";
+        public static readonly string pathPsvimg = tempDir + "psvimgtools.zip";
+        public static readonly string pathPkg = tempDir + "pkg2zip.zip";
+        public static readonly string pathEnc = tempDir + "h-encore.zip";
+        public static readonly string pathEntry = tempDir + "entryPoint.pkg";
+        public static readonly string pathQcma = tempDir + "qcma.zip";
+        public static readonly string pathQcmaExtracted = tempDir + "Qcma\\";
+        public static readonly string pathBackupReg = tempDir + "backup.reg";
+        public static readonly string pathImportReg = tempDir + "qcma.reg";
+        public static readonly string pathQcmaRes = tempDir + "QcmaRes\\";
+        public static bool areFilesKept = false;
+
+        public static bool isRegModified = false;
     }
 }

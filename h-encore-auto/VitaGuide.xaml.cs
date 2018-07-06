@@ -21,11 +21,19 @@ namespace h_encore_auto
     {
         int currImg = 1;
 
+        string[] currText = lang.GuideText(Util.GetLang());
+
         public VitaGuide()
         {
             InitializeComponent();
-            imgFrame.Source = new BitmapImage(new Uri("/img/1.png", UriKind.Relative));
-            currImg = 1;
+
+            if (Ref.isSecondGuide == true)
+            {
+                currImg = 101;
+            }
+
+            imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
+            textField.Text = currText[currImg];
             buttonDone.Visibility = Visibility.Hidden;
         }
 
@@ -33,9 +41,10 @@ namespace h_encore_auto
         {
             currImg++;
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
+            textField.Text = currText[currImg];
             buttonBck.IsEnabled = true;
 
-            if (currImg == 14)
+            if (currImg == 14 || currImg == 25)
             {
                 buttonFwd.IsEnabled = false;
                 buttonDone.Visibility = Visibility.Visible;
@@ -51,8 +60,9 @@ namespace h_encore_auto
             currImg--;
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
             buttonFwd.IsEnabled = true;
+            textField.Text = currText[currImg];
 
-            if (currImg == 1)
+            if (currImg == 1 || currImg == 15)
             {
                 buttonBck.IsEnabled = false;
             }

@@ -82,6 +82,7 @@
     <Compile Include="AutoMode.xaml.cs">
       <DependentUpon>AutoMode.xaml</DependentUpon>
     </Compile>
+    <Compile Include="lang.cs" />
     <Compile Include="Ref.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="VitaGuide.xaml.cs">
@@ -91,16 +92,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="VitaGuide.xaml">
@@ -145,7 +138,13 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="img\15.png" />
+    <Resource Include="img\16.png" />
+    <Resource Include="img\17.png" />
+    <Resource Include="img\18.png" />
+    <Resource Include="img\19.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="img\1.png" />
     <Resource Include="img\11.png" />
@@ -161,6 +160,9 @@
     <Resource Include="img\8.png" />
     <Resource Include="img\9.PNG" />
     <Resource Include="img\10.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\ajax-loader.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

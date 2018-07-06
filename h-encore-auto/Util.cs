@@ -5,6 +5,8 @@ using System.IO;
 using System.Windows.Markup;
 using System.Windows;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 
 namespace h_encore_auto
 {
@@ -23,7 +25,7 @@ namespace h_encore_auto
             }
             catch (Exception)
             {
-                MessageBox.Show("Failed to get the CMA encryption key. Make sure your internet is connected and/or retry.");
+                MessageBox.Show("Failed to get the CMA encryption key. Make sure your internet is connected and retry.");
                 return "";
             }
         }
@@ -56,10 +58,49 @@ namespace h_encore_auto
                 client.DownloadFile(url, Ref.tempDir + filename);
             }
         }
-        public static void cleanup()
+        public static void Cleanup()
         {
-            Util.DeleteDirectory(Ref.tempDir);
-            System.Environment.Exit(0);
+            Process[] pname = Process.GetProcessesByName("qcma");
+            if (pname.Length != 0)
+            {
+                foreach (var proc in pname)
+                {
+                    proc.Kill();
+                }
+            }
+
+            Process process = new Process();
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            ProcessStartInfo startInfoOut = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.WorkingDirectory = Ref.tempDir;
+
+            if (Ref.isRegModified == true)
+            {
+                startInfo.Arguments = @"/C reg delete HKEY_CURRENT_USER\Software\codestation\qcma /f";
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            }
+
+            if (Ref.isQcmaConfigFound == true)
+            {
+                startInfo.Arguments = @"/C reg import " + Ref.pathBackupReg;
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
+            }
+
+            if (Directory.Exists(Ref.tempDir))
+            {
+                if (MessageBox.Show("Do you want to keep the downloaded files for future use?\nPressing no will wipe any leftover files of this application off your computer.", "Keep Files?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    File.Create(Ref.tempDir + "keepfile");
+                else
+                    DeleteDirectory(Ref.tempDir);
+            }
+
+            Environment.Exit(0);
         }
         public static bool IsDirectoryEmpty(string path)
         {
@@ -68,6 +109,13 @@ namespace h_encore_auto
             {
                 return !en.MoveNext();
             }
+        }
+
+        public static string GetLang()
+        {
+            CultureInfo ci = CultureInfo.InstalledUICulture;
+
+            return ci.TwoLetterISOLanguageName;
         }
     }
 }
