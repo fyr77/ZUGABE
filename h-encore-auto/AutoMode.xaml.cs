@@ -196,7 +196,11 @@ namespace h_encore_auto
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DragMove();
+            try
+            {
+                DragMove();
+            }
+            catch { }
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -250,11 +254,13 @@ namespace h_encore_auto
                     startInfo.FileName = "cmd.exe";
                     startInfo.WorkingDirectory = Ref.tempDir + "h-encore";
 
-                    Ref.shortAID = Directory.GetDirectories(Ref.pathQcmaRes + "PSVita\\APP\\")[0];
+                    Ref.shortAID = new DirectoryInfo(Directory.GetDirectories(Ref.pathQcmaRes + "PSVita\\APP\\")[0]).Name;
+                    MessageBox.Show(Ref.shortAID);
 
                     Ref.longAID = Util.GetEncKey(Ref.shortAID);
+                    MessageBox.Show(Ref.longAID);
 
-                    startInfo.Arguments = @"/C create.bat " + Ref.longAID;
+                    startInfo.Arguments = "/C create.bat " + Ref.longAID;
                     process.StartInfo = startInfo;
                     process.Start();
                     process.WaitForExit();
