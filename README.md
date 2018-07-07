@@ -9,6 +9,7 @@ Since I can't code in C or C++, I was unable to use OpenCMA as a backend, so I u
 Configuration of QCMA is done via registry edits. The application also detects existing QCMA installations and restores the original settings after the exploit was installed.
 
 **Attention: This tool only supports connection of the PSVita using Wi-Fi, therefore it's currently only compatible with PSVita/PSTV on Firmware 3.68!**
+**For lower versions use noahc3's application [auto-h-encore](https://github.com/noahc3/auto-h-encore)**
 
 ## Usage
 Download from the releases section, extract it and run the executable.
