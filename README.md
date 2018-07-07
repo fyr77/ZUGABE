@@ -8,7 +8,7 @@ This tool automates the install process of thefl0w's h-encore exploit for PS Vit
 Since I can't code in C or C++, I was unable to use OpenCMA as a backend, so I used QCMA. It's automatically downloaded and does not require to be installed. 
 Configuration of QCMA is done via registry edits. The application also detects existing QCMA installations and restores the original settings after the exploit was installed.
 
-**Attention: This tool only supports connection of the PSVita using Wi-Fi!**
+**Attention: This tool only supports connection of the PSVita using Wi-Fi, therefore it's currently only compatible with PSVita/PSTV on Firmware 3.68!**
 
 ## Usage
 Download from the releases section, extract it and run the executable.
@@ -17,6 +17,7 @@ Download from the releases section, extract it and run the executable.
 Build using Visual Studio 2017, this was tested. Other C# IDEs might work as well.
 
 ## Todo
+- USB support
 - Translations
 - Mac/Linux Compatibilty
 - Fix bugs (you tell me!)
