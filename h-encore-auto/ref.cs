@@ -20,31 +20,6 @@ namespace h_encore_auto
 
         public static readonly string tempDir = Path.GetTempPath() + @"encore_temp\";
 
-        public static readonly string[] trims = new string[] {
-            "movie\\",
-            "image\\bg\\",
-            "image\\ev\\",
-            "image\\icon\\",
-            "image\\stitle\\",
-            "image\\tachie\\",
-            "sound\\bgm\\",
-            "sound\\se\\",
-            "sound\\sec\\",
-            "sound\\voice\\",
-            "text\\01\\"
-        };
-
-        public static readonly string[] downloads = new string[] {
-            "7zr.exe",
-            "7z-extra.7z",
-            "entryPoint.pkg",
-            "h-encore.zip",
-            "pkg2zip.zip",
-            "psvimgtools.zip",
-            "qcma.reg",
-            "qcma.zip"
-        };
-
         public static bool isSecondGuide = false;
 
         public static bool isQcmaConfigFound = false;
@@ -63,7 +38,6 @@ namespace h_encore_auto
         public static readonly string pathBackupReg = tempDir + "backup.reg";
         public static readonly string pathImportReg = tempDir + "qcma.reg";
         public static readonly string pathQcmaRes = tempDir + "QcmaRes\\";
-        public static bool areFilesKept = false;
 
         public static bool isRegModified = false;
     }

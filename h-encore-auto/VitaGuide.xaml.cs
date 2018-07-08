@@ -50,7 +50,7 @@ namespace h_encore_auto
             currImg--;
             imgFrame.Source = new BitmapImage(new Uri("/img/" + currImg + ".png", UriKind.Relative));
             buttonFwd.IsEnabled = true;
-            textField.Text = currText[currImg];
+            textField.Text = currText[currImg - 1];
 
             if (currImg == 1 || currImg == 15)
             {

@@ -16,17 +16,8 @@ namespace h_encore_auto
         {
             InitializeComponent();
 
-            if (File.Exists(Ref.tempDir + "keepfile"))
-            {
-                Ref.areFilesKept = true;
-                Util.keepFilesCleanup();
-            }
-            else
-            {
-                Ref.areFilesKept = false;
-                if (Directory.Exists(Ref.tempDir))
-                    Util.DeleteDirectory(Ref.tempDir);
-            }
+            if (Directory.Exists(Ref.tempDir))
+                Util.DeleteDirectory(Ref.tempDir);
 
             InitTimer();
         }
@@ -64,33 +55,30 @@ namespace h_encore_auto
                 startInfoOut.FileName = "cmd.exe";
                 startInfoOut.WorkingDirectory = Ref.tempDir;
 
-                if (Ref.areFilesKept == false)
-                {
-                    // 7ZIP Download and extraction
-                    Util.dlFile(Ref.url7zr, "7zr.exe");
-                    Util.dlFile(Ref.url7za, "7z-extra.7z");
+                // 7ZIP Download and extraction
+                Util.dlFile(Ref.url7zr, "7zr.exe");
+                Util.dlFile(Ref.url7za, "7z-extra.7z");
 
-                    startInfo.Arguments = "/C 7zr.exe x 7z-extra.7z";
-                    process.StartInfo = startInfo;
-                    process.Start();
-                    process.WaitForExit();
+                startInfo.Arguments = "/C 7zr.exe x 7z-extra.7z";
+                process.StartInfo = startInfo;
+                process.Start();
+                process.WaitForExit();
 
-                    //Rest of the tool downloads
-                    Util.dlFile(Ref.urlPsvimg, "psvimgtools.zip");
-                    Util.dlFile(Ref.urlPkg, "pkg2zip.zip");
-                    Util.dlFile(Ref.urlEnc, "h-encore.zip");
-                    Util.dlFile(Ref.urlEntry, "entryPoint.pkg");
-                    Util.dlFile(Ref.urlQcma, "qcma.zip");
-                    Util.dlFile(Ref.urlReg, "qcma.reg");
+                //Rest of the tool downloads
+                Util.dlFile(Ref.urlPsvimg, "psvimgtools.zip");
+                Util.dlFile(Ref.urlPkg, "pkg2zip.zip");
+                Util.dlFile(Ref.urlEnc, "h-encore.zip");
+                Util.dlFile(Ref.urlEntry, "entryPoint.pkg");
+                Util.dlFile(Ref.urlQcma, "qcma.zip");
+                Util.dlFile(Ref.urlReg, "qcma.reg");
 
-                    string text = File.ReadAllText(Ref.pathImportReg);
-                    text = text.Replace("REPLACE", Ref.pathQcmaRes);
-                    File.WriteAllText(Ref.pathImportReg, text);
-                    text = text.Replace("\\", "/");
-                    File.WriteAllText(Ref.pathImportReg, text);
-                    text = text.Replace("HKEY_CURRENT_USER/Software/codestation/qcma", @"HKEY_CURRENT_USER\Software\codestation\qcma");
-                    File.WriteAllText(Ref.pathImportReg, text);
-                }
+                string text = File.ReadAllText(Ref.pathImportReg);
+                text = text.Replace("REPLACE", Ref.pathQcmaRes);
+                File.WriteAllText(Ref.pathImportReg, text);
+                text = text.Replace("\\", "/");
+                File.WriteAllText(Ref.pathImportReg, text);
+                text = text.Replace("HKEY_CURRENT_USER/Software/codestation/qcma", @"HKEY_CURRENT_USER\Software\codestation\qcma");
+                File.WriteAllText(Ref.pathImportReg, text);
 
                 startInfo.Arguments = "/C " + Ref.path7z + " x " + Ref.pathPsvimg;
                 process.StartInfo = startInfo;
@@ -121,20 +109,6 @@ namespace h_encore_auto
 
                 Util.CopyDir(Ref.tempDir + "app\\PCSG90096\\", Ref.tempDir + "h-encore\\app\\ux0_temp_game_PCSG90096_app_PCSG90096\\",true);
                 File.Copy(Ref.tempDir + "app\\PCSG90096\\sce_sys\\package\\temp.bin", Ref.tempDir + @"h-encore\license\ux0_temp_game_PCSG90096_license_app_PCSG90096\6488b73b912a753a492e2714e9b38bc7.rif");
-
-                try
-                {
-                    string path = Ref.tempDir + "app\\PCSG90096\\resource\\";
-                    foreach (string k in Ref.trims)
-                    {
-                        Util.DeleteDirectory(path + k);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception: " + ex.Message + "\nYou should tell the developer in a github issue. Include a screenshot if possible!");
-                    return;
-                }
 
                 startInfoOut.RedirectStandardOutput = true;
                 startInfoOut.UseShellExecute = false;

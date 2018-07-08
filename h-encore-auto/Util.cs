@@ -94,12 +94,7 @@ namespace h_encore_auto
 
             if (Directory.Exists(Ref.tempDir))
             {
-                if (MessageBox.Show("Do you want to keep the downloaded files for future use?\nPressing no will wipe any leftover files of this application off your computer.", "Keep Files?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    keepFilesCleanup();
-                }
-                else
-                    DeleteDirectory(Ref.tempDir);
+                DeleteDirectory(Ref.tempDir);
             }
 
             Environment.Exit(0);
@@ -154,39 +149,6 @@ namespace h_encore_auto
                     CopyDir(subdir.FullName, temppath, copySubDirs);
                 }
             }
-        }
-        public static void keepFilesCleanup()
-        {
-            if (!File.Exists(Ref.tempDir + "keepfile"))
-            {
-                File.Create(Ref.tempDir + "keepfile");
-            }
-
-            string backupTemp = Ref.tempDir + "keepfiles\\";
-            Directory.CreateDirectory(backupTemp);
-
-            foreach (string download in Ref.downloads)
-            {
-                File.Copy(Ref.tempDir + download, backupTemp + download);
-            }
-
-            Util.DeleteDirectory(Ref.tempDir + "\\app");
-            Util.DeleteDirectory(Ref.tempDir + "\\Far");
-            Util.DeleteDirectory(Ref.tempDir + "\\h-encore");
-            Util.DeleteDirectory(Ref.tempDir + "\\Qcma");
-            Util.DeleteDirectory(Ref.tempDir + "\\QcmaRes");
-            Util.DeleteDirectory(Ref.tempDir + "\\x64");
-
-            foreach (string file in Directory.GetFiles(Ref.tempDir))
-            {
-                File.Delete(file);
-            }
-
-            foreach (string download in Ref.downloads)
-            {
-                File.Copy(backupTemp + download, Ref.tempDir + download);
-            }
-            Util.DeleteDirectory(backupTemp);
         }
     }
 }
