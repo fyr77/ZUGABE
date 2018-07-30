@@ -1,6 +1,6 @@
 # ZUGABE
 
-**This project is inactive for now, since I'm working on a tool for Mac and Linux. Please use [auto-h-encore](https://github.com/noahc3/auto-h-encore) for Windows.**
+**This is obsolete. Please use [finalhe by soarqin](https://github.com/soarqin/finalhe).**
 
 This tool automates much of the installation of h-encore.
 
