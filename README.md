@@ -4,8 +4,6 @@
 
 This tool automates much of the installation of h-encore.
 
-[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
-
 ## About
 This tool automates the install process of thefl0w's h-encore exploit for PS Vita, at least everything that can be done on the PC. 
 Since I can't code in C or C++, I was unable to use OpenCMA as a backend, so I used QCMA. It's automatically downloaded and does not require to be installed. 
